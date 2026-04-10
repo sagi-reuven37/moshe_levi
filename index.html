@@ -1,0 +1,1792 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>לזכרו של משה לוי</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- GLightbox -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+
+  <style>
+    /* ══════════════════════════════════════════════════════════
+       TOKENS
+    ══════════════════════════════════════════════════════════ */
+    :root {
+      --cream:  #F5EFE0;
+      --cream2: #EDE3CC;
+      --ink:    #1C1208;
+      --gold:   #C9922A;
+      --gold2:  #E8B860;
+      --grass:  #2D4A1E;
+      --grass2: #3d6b2a;
+      --faded:  #9E8B6E;
+      --white:  #FFFFFF;
+      --shadow-warm: rgba(28, 18, 8, 0.14);
+      --radius: 14px;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       RESET & BASE
+    ══════════════════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Heebo', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+
+    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    a   { color: inherit; text-decoration: none; }
+
+    /* ══════════════════════════════════════════════════════════
+       NAV  — transparent → frosted glass on scroll
+    ══════════════════════════════════════════════════════════ */
+    #nav {
+      position: fixed;
+      top: 0; right: 0; left: 0;
+      z-index: 900;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.15rem;
+      padding: 1rem 1.5rem;
+      transition: background 0.4s, backdrop-filter 0.4s, padding 0.4s, box-shadow 0.4s;
+    }
+
+    #nav.scrolled {
+      background: rgba(245, 239, 224, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 0.6rem 1.5rem;
+      box-shadow: 0 2px 20px rgba(28,18,8,0.1);
+    }
+
+    #nav a {
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--white);
+      padding: 0.35rem 0.9rem;
+      border-radius: 50px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    #nav.scrolled a { color: var(--ink); }
+    #nav a:hover    { background: var(--gold); color: var(--white) !important; }
+
+    /* ══════════════════════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════════════════════ */
+    #hero {
+      position: relative;
+      height: 100svh;
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /*
+      ╔═══════════════════════════════════════════════════════════╗
+      ║  HERO BACKGROUND IMAGE                                    ║
+      ║  Place file at:  images/hero.jpg                          ║
+      ║  Replace the gradient in #hero-bg with:                   ║
+      ║    background-image: url('images/hero.jpg');              ║
+      ╚═══════════════════════════════════════════════════════════╝
+    */
+    #hero-bg {
+      position: absolute;
+      inset: -10%;          /* oversized for parallax room */
+      background:
+        linear-gradient(165deg, #080e06 0%, #111d0a 35%, #1a2e10 70%, #0a0a06 100%);
+      background-size: cover;
+      background-position: center;
+      will-change: transform;
+    }
+
+    /* dark cinematic overlay */
+    #hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at center, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.65) 100%);
+    }
+
+    /* subtle net texture */
+    #hero-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg,   transparent, transparent 44px, rgba(255,255,255,0.025) 45px),
+        repeating-linear-gradient(90deg,  transparent, transparent 44px, rgba(255,255,255,0.025) 45px);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      color: var(--white);
+      padding: 2rem;
+      max-width: 800px;
+    }
+
+    /* "Last Save" badge */
+    .hero-badge {
+      display: inline-block;
+      border: 1px solid rgba(201,146,42,0.55);
+      color: var(--gold2);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 0.35rem 1.2rem;
+      border-radius: 50px;
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.3s ease forwards;
+    }
+
+    /* NAME — each letter is a span animated individually */
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 11vw, 7.5rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      text-shadow: 0 4px 40px rgba(0,0,0,0.5);
+      display: block;
+      margin-bottom: 0.2em;
+    }
+
+    .hero-letter {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: letterIn 0.6s ease forwards;
+    }
+
+    @keyframes letterIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* animated golden underline */
+    .hero-underline {
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold2));
+      border-radius: 3px;
+      margin: 0.5rem auto 1.2rem;
+      animation: drawLine 1s 1.6s cubic-bezier(.22,1,.36,1) forwards;
+    }
+
+    @keyframes drawLine {
+      to { width: min(400px, 70vw); }
+    }
+
+    .hero-years {
+      font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+      font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.25em;
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 1.8s ease forwards;
+    }
+
+    .hero-tagline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      font-style: italic;
+      color: rgba(255,255,255,0.82);
+      opacity: 0;
+      animation: fadeUp 0.8s 2s ease forwards;
+      line-height: 1.5;
+    }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 2.5s ease forwards;
+    }
+
+    .scroll-arrow {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.4));
+      animation: scrollPulse 2s infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%,100% { opacity: 0.4; transform: scaleY(1); }
+      50%      { opacity: 1;   transform: scaleY(0.6); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       SCROLL-TRIGGERED ANIMATIONS
+    ══════════════════════════════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* stagger via CSS variable set inline */
+    .reveal[style*="--d"] {
+      transition-delay: var(--d, 0s);
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       SHARED SECTION STYLES
+    ══════════════════════════════════════════════════════════ */
+    .section-wrap {
+      padding: 6rem 1.5rem;
+    }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 900;
+      color: var(--ink);
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-heading em {
+      color: var(--gold);
+      font-style: normal;
+    }
+
+    .rule {
+      width: 52px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold2));
+      border-radius: 3px;
+      margin: 1rem 0 2.5rem;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       BIO
+    ══════════════════════════════════════════════════════════ */
+    #bio-section { background: var(--cream); }
+
+    .bio-grid {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    /*
+      ╔═══════════════════════════════════════════════════════════╗
+      ║  PROFILE PHOTO                                            ║
+      ║  Place file at:  images/profile.jpg                       ║
+      ║  Replace .bio-photo-circle's inner content with:          ║
+      ║    <img src="images/profile.jpg" alt="משה לוי" />         ║
+      ╚═══════════════════════════════════════════════════════════╝
+    */
+    .bio-photo-wrap {
+      position: relative;
+    }
+
+    .bio-photo-circle {
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 5px solid var(--gold);
+      box-shadow: 0 12px 50px rgba(201,146,42,0.25), 0 4px 20px var(--shadow-warm);
+      background: linear-gradient(145deg, var(--grass), #0f2208);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.3);
+      font-size: 0.75rem;
+      text-align: center;
+      flex-direction: column;
+      gap: 0.5rem;
+      position: relative;
+    }
+
+    .bio-photo-circle svg {
+      width: 48px;
+      opacity: 0.3;
+    }
+
+    /* decorative ring */
+    .bio-photo-wrap::before {
+      content: '';
+      position: absolute;
+      top: -10px; right: -10px;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      border: 1px dashed rgba(201,146,42,0.35);
+    }
+
+    /* decorative year stamp */
+    .bio-stamp {
+      position: absolute;
+      bottom: -10px;
+      left: -10px;
+      background: var(--gold);
+      color: var(--white);
+      font-family: 'Playfair Display', serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 0.4rem 0.9rem;
+      border-radius: 50px;
+      box-shadow: 0 4px 12px rgba(201,146,42,0.4);
+    }
+
+    .bio-text-side {
+      position: relative;
+    }
+
+    /* big decorative quotemark behind text */
+    .bio-text-side::before {
+      content: '\201C';
+      position: absolute;
+      top: -2rem;
+      right: -1.5rem;
+      font-family: Georgia, serif;
+      font-size: 14rem;
+      line-height: 1;
+      color: var(--gold);
+      opacity: 0.07;
+      transform: rotate(-5deg);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .bio-text-side p {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: var(--faded);
+      margin-bottom: 1.1rem;
+    }
+
+    .bio-text-side p:first-of-type {
+      font-size: 1.12rem;
+      color: var(--ink);
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       CAREER TIMELINE
+    ══════════════════════════════════════════════════════════ */
+    #career-section {
+      background: var(--ink);
+      color: var(--white);
+    }
+
+    #career-section .section-heading { color: var(--white); }
+    #career-section .eyebrow { color: var(--gold2); }
+
+    .timeline {
+      position: relative;
+      padding: 2rem 0;
+    }
+
+    /* central line */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      right: 50%;
+      transform: translateX(50%);
+      width: 2px;
+      background: linear-gradient(to bottom, transparent, rgba(201,146,42,0.5), transparent);
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 1fr 60px 1fr;
+      gap: 0 1rem;
+      align-items: start;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    /* dot on line */
+    .timeline-dot {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 3px solid var(--ink);
+      box-shadow: 0 0 0 2px var(--gold);
+      margin: 1.2rem auto 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* year chip below dot */
+    .timeline-year {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--gold2);
+      text-align: center;
+      margin-top: 0.4rem;
+    }
+
+    .timeline-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      padding: 1.6rem;
+      transition: background 0.25s, transform 0.25s;
+    }
+
+    .timeline-card:hover {
+      background: rgba(255,255,255,0.09);
+      transform: translateY(-3px);
+    }
+
+    /* right-side card is in first column (RTL), left-side in third */
+    .timeline-item.left  .timeline-card:first-child { grid-column: 1; }
+    .timeline-item.right .timeline-card:last-child  { grid-column: 3; }
+
+    .timeline-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--gold2);
+      margin-bottom: 0.4rem;
+    }
+
+    .timeline-card .team {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 0.6rem;
+    }
+
+    .timeline-card p {
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.68);
+      line-height: 1.7;
+    }
+
+    /* hide empty cell */
+    .timeline-empty { opacity: 0; pointer-events: none; }
+
+    /* ══════════════════════════════════════════════════════════
+       GAME GALLERY — masonry-style, golden glow on hover
+    ══════════════════════════════════════════════════════════ */
+    #games-section { background: var(--cream2); }
+
+    .masonry {
+      columns: 3 280px;
+      column-gap: 1rem;
+    }
+
+    .masonry-item {
+      break-inside: avoid;
+      margin-bottom: 1rem;
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      background: var(--cream);
+      box-shadow: 0 4px 18px var(--shadow-warm);
+    }
+
+    .masonry-item img {
+      display: block;
+      width: 100%;
+      height: auto;
+      transition: transform 0.4s;
+    }
+
+    .masonry-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 0 3px var(--gold), 0 12px 40px rgba(201,146,42,0.35);
+    }
+
+    .masonry-item:hover img { transform: scale(1.04); }
+
+    .masonry-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(28,18,8,0.72) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 1rem;
+      color: var(--white);
+      font-size: 0.82rem;
+      font-weight: 500;
+    }
+
+    .masonry-item:hover .masonry-overlay { opacity: 1; }
+
+    /* placeholder card for empty game slots */
+    .masonry-ph {
+      aspect-ratio: 4/3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: repeating-linear-gradient(
+        45deg,
+        var(--cream2),
+        var(--cream2) 8px,
+        #ddd4bb 8px,
+        #ddd4bb 16px
+      );
+      color: var(--faded);
+      font-size: 0.75rem;
+      cursor: default;
+    }
+
+    .masonry-ph svg { width: 28px; opacity: 0.35; }
+    .masonry-ph:hover { transform: none; box-shadow: 0 4px 18px var(--shadow-warm); }
+
+    /* ══════════════════════════════════════════════════════════
+       ARTICLES — corkboard aesthetic
+    ══════════════════════════════════════════════════════════ */
+    #articles-section {
+      /* cork texture via CSS */
+      background-color: #b8935a;
+      background-image:
+        radial-gradient(ellipse at 20% 30%, rgba(90,55,20,0.3) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 70%, rgba(120,80,30,0.25) 0%, transparent 60%),
+        repeating-linear-gradient(
+          0deg, transparent, transparent 2px,
+          rgba(90,60,20,0.06) 2px, rgba(90,60,20,0.06) 3px
+        ),
+        repeating-linear-gradient(
+          90deg, transparent, transparent 3px,
+          rgba(90,60,20,0.04) 3px, rgba(90,60,20,0.04) 4px
+        );
+    }
+
+    #articles-section .eyebrow { color: #f5e8cc; }
+    #articles-section .section-heading { color: var(--white); }
+    #articles-section .rule { background: linear-gradient(90deg, #f5e8cc, #e8d4a0); }
+
+    .corkboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 2rem 1.5rem;
+    }
+
+    /* Each article card = newspaper clipping pinned to cork */
+    .clip {
+      position: relative;
+      background: #fffff0;
+      border-radius: 2px;
+      box-shadow:
+        2px 2px 0 rgba(0,0,0,0.05),
+        4px 6px 20px rgba(0,0,0,0.3),
+        0 0 0 1px rgba(0,0,0,0.07);
+      transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s;
+      cursor: pointer;
+      overflow: visible;
+    }
+
+    /* assign random-looking rotations */
+    .clip:nth-child(1) { transform: rotate(-1.8deg); }
+    .clip:nth-child(2) { transform: rotate(1.2deg); }
+    .clip:nth-child(3) { transform: rotate(-0.6deg); }
+    .clip:nth-child(4) { transform: rotate(2.1deg); }
+    .clip:nth-child(5) { transform: rotate(-1.3deg); }
+    .clip:nth-child(6) { transform: rotate(0.8deg); }
+    .clip:nth-child(7) { transform: rotate(-2.2deg); }
+    .clip:nth-child(8) { transform: rotate(1.6deg); }
+    .clip:nth-child(9) { transform: rotate(-0.9deg); }
+
+    .clip:hover {
+      transform: rotate(0deg) translateY(-8px) scale(1.04) !important;
+      box-shadow: 6px 16px 40px rgba(0,0,0,0.45), 0 0 0 1px rgba(0,0,0,0.1);
+      z-index: 10;
+    }
+
+    /* pushpin */
+    .clip::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px; height: 16px;
+      background: radial-gradient(circle at 40% 35%, #e84a4a, #b82020);
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.3);
+      z-index: 2;
+    }
+
+    .clip-inner {
+      overflow: hidden;
+      border-radius: 2px;
+    }
+
+    .clip-img {
+      aspect-ratio: 3/4;
+      position: relative;
+      overflow: hidden;
+      background: #d8d4c8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      font-size: 0.7rem;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .clip-img svg { width: 26px; opacity: 0.3; }
+
+    .clip-img img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: sepia(15%) contrast(1.05);
+      transition: filter 0.3s;
+    }
+
+    .clip:hover .clip-img img { filter: sepia(0%) contrast(1.1); }
+
+    .clip-caption {
+      padding: 0.6rem 0.8rem;
+      font-size: 0.68rem;
+      font-family: Georgia, serif;
+      color: #444;
+      border-top: 1px solid #ddd9cc;
+      line-height: 1.4;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       TRIBUTES — typewriter reveal on scroll
+    ══════════════════════════════════════════════════════════ */
+    #tributes-section { background: var(--cream); }
+
+    .tributes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .tribute-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 2.2rem;
+      box-shadow: 0 4px 24px var(--shadow-warm);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tribute-card::before {
+      content: '\201C';
+      position: absolute;
+      top: -0.5rem;
+      right: 1.2rem;
+      font-family: Georgia, serif;
+      font-size: 7rem;
+      line-height: 1;
+      color: var(--gold);
+      opacity: 0.12;
+    }
+
+    .tribute-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(201,146,42,0.2);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    /* typewriter mask — text hidden behind right-side clip */
+    .tribute-text-wrap {
+      overflow: hidden;
+    }
+
+    .tribute-text {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--faded);
+      font-style: italic;
+      margin-bottom: 1.4rem;
+      position: relative;
+      z-index: 1;
+      /* typewriter: clip from right to left (RTL) */
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path 1.4s cubic-bezier(.22,1,.36,1);
+    }
+
+    .tribute-text.typed {
+      clip-path: inset(0 0% 0 0);
+    }
+
+    .tribute-author {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .tribute-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--grass2), var(--grass));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .tribute-name  { font-weight: 700; font-size: 0.88rem; color: var(--grass); }
+    .tribute-role  { font-size: 0.75rem; color: var(--faded); }
+
+    /* ══════════════════════════════════════════════════════════
+       FOOTER — grass SVG animation
+    ══════════════════════════════════════════════════════════ */
+    #footer {
+      background: var(--grass);
+      color: rgba(255,255,255,0.8);
+      text-align: center;
+      padding: 5rem 1.5rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* grass SVG sits at bottom */
+    #grass-svg {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      width: 100%;
+      height: 120px;
+      opacity: 0.35;
+    }
+
+    .grass-blade {
+      transform-origin: bottom center;
+      animation: sway 3s ease-in-out infinite;
+    }
+
+    .grass-blade:nth-child(2n)   { animation-delay: -0.8s; animation-duration: 3.4s; }
+    .grass-blade:nth-child(3n)   { animation-delay: -1.6s; animation-duration: 2.8s; }
+    .grass-blade:nth-child(4n)   { animation-delay: -0.4s; animation-duration: 3.8s; }
+    .grass-blade:nth-child(5n)   { animation-delay: -1.2s; animation-duration: 2.6s; }
+
+    @keyframes sway {
+      0%, 100% { transform: rotate(-4deg); }
+      50%       { transform: rotate(4deg); }
+    }
+
+    .footer-content { position: relative; z-index: 1; }
+
+    .footer-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 900;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+
+    .footer-years {
+      font-size: 1rem;
+      color: var(--gold2);
+      letter-spacing: 0.2em;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-rule {
+      width: 48px; height: 2px;
+      background: var(--gold);
+      border-radius: 2px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .footer-tagline {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.65);
+      max-width: 440px;
+      margin: 0 auto 2rem;
+      line-height: 1.7;
+    }
+
+    .footer-dove { font-size: 2rem; margin-bottom: 1.5rem; }
+
+    .footer-copy {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       ABOUT — story cards grid
+    ══════════════════════════════════════════════════════════ */
+    #about-section { background: var(--cream2); }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.6rem;
+      margin-top: 0.5rem;
+    }
+
+    .story-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.8rem 1.8rem 1.6rem;
+      box-shadow: 0 4px 20px var(--shadow-warm);
+      border-top: 3px solid var(--gold);
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .story-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 36px rgba(201,146,42,0.18);
+    }
+
+    .story-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.8rem;
+      line-height: 1;
+    }
+
+    .story-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--grass);
+      margin-bottom: 0.6rem;
+    }
+
+    .story-card p {
+      font-size: 0.9rem;
+      color: var(--faded);
+      line-height: 1.75;
+    }
+
+    /* career highlights */
+    .career-highlights {
+      margin-top: 3rem;
+      background: var(--grass);
+      border-radius: var(--radius);
+      padding: 2rem 2.4rem;
+      color: var(--white);
+    }
+
+    .career-highlights h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--gold2);
+      margin-bottom: 1.2rem;
+    }
+
+    .career-highlights ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .career-highlights li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.93rem;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.88);
+    }
+
+    .career-highlights li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      margin-top: 0.42em;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      .bio-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      .bio-photo-circle { margin: 0 auto; }
+      .bio-photo-wrap::before { display: none; }
+
+      .timeline::before { display: none; }
+
+      .timeline-item {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.6rem;
+        margin-bottom: 2rem;
+      }
+
+      .timeline-item .timeline-empty {
+        display: none;
+      }
+
+      /* dot + year wrapper always first */
+      .timeline-item > div:not(.timeline-card):not(.timeline-empty) {
+        order: -1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.6rem;
+      }
+
+      .timeline-dot {
+        margin: 0;
+        flex-shrink: 0;
+      }
+
+      .timeline-year {
+        text-align: right;
+      }
+
+      .timeline-card {
+        order: 0;
+        grid-column: unset;
+        width: 100%;
+      }
+
+      .masonry { columns: 2 160px; }
+      .corkboard { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+
+      #nav a { font-size: 0.72rem; padding: 0.28rem 0.6rem; }
+      .section-wrap { padding: 4rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     NAV
+══════════════════════════════════════════════════════════ -->
+<nav id="nav">
+  <a href="#hero">בית</a>
+  <a href="#bio-section">אודות</a>
+  <a href="#about-section">חייו</a>
+  <a href="#career-section">קריירה</a>
+  <a href="#games-section">גלריית משחקים</a>
+  <a href="#articles-section">כתבות</a>
+  <a href="#tributes-section">הנצחה</a>
+</nav>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════════════ -->
+<section id="hero">
+  <div id="hero-bg">
+    <!--
+      REPLACE: Hero background image
+      Place file at: images/hero.jpg
+      Then add inside this div:
+        <img src="images/hero.jpg" alt=""
+             style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;" />
+    -->
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badge">לעולם בלבבנו · שוער · לוחם</div>
+
+    <h1 class="hero-name" aria-label="משה לוי">
+      <!-- Each letter animates in individually -->
+      <span class="hero-letter" style="animation-delay:0.7s">מ</span><!--
+      --><span class="hero-letter" style="animation-delay:0.85s">ש</span><!--
+      --><span class="hero-letter" style="animation-delay:1.0s">ה</span><!--
+      --><span class="hero-letter" style="animation-delay:1.2s">&nbsp;</span><!--
+      --><span class="hero-letter" style="animation-delay:1.35s">ל</span><!--
+      --><span class="hero-letter" style="animation-delay:1.5s">ו</span><!--
+      --><span class="hero-letter" style="animation-delay:1.65s">י</span>
+    </h1>
+
+    <div class="hero-underline"></div>
+
+    <p class="hero-years">תשצ״ח · 1938 &ndash; בגיל 83</p>
+
+    <p class="hero-tagline">שוער. לוחם. אבא.<br/>חי בכל הלב. אהב בלי גבול. לעולם בלבבנו.</p>
+  </div>
+
+  <div class="hero-scroll-hint">
+    גלול מטה
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     BIO
+══════════════════════════════════════════════════════════ -->
+<div id="bio-section" class="section-wrap">
+  <div class="section-inner">
+    <p class="eyebrow reveal">הכירו אותו</p>
+    <h2 class="section-heading reveal" style="--d:0.1s"><em>משה לוי</em></h2>
+    <div class="rule reveal" style="--d:0.15s"></div>
+
+    <div class="bio-grid">
+
+      <!-- Photo column -->
+      <div class="bio-photo-wrap reveal" style="--d:0.2s">
+        <div class="bio-photo-circle">
+          <img src="images/profile.jpg" alt="משה לוי"
+               style="width:100%;height:100%;object-fit:cover;object-position:top center;" />
+        </div>
+      </div>
+
+      <!-- Text column -->
+      <div class="bio-text-side reveal" style="--d:0.25s">
+        <p class="eyebrow" style="margin-bottom:0.3rem;">ביוגרפיה</p>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--grass);margin-bottom:1.2rem;">שוער. מנהיג. אבא.</h3>
+
+        <p>משה לוי נולד בפתח תקווה בשנת 1938, בערב תשעה באב, צאצא למשפחה יהודית-תימנית ששורשיה בארץ ישראל מסוף המאה ה-19. סבו עלה מתימן והתיישב ב"אם המושבות", ובני המשפחה היו חקלאים שגידלו פרדסי תפוזים.</p>
+        <p>גדל בסביבה חקלאית שופעת טבע, ילד סקרן ואוהב שדה כאחד. התחנך בחדר אצל ה״מורי״, וכבר בגיל 3–4 ידע קרוא וכתוב; בגיל 5 עלה לתורה. אהב היסטוריה ותנ״ך, ובקיאותו העשירה את ילדיו ונכדיו לאורך כל השנים.</p>
+        <p>לחם בחמישה מלחמות ישראל — מסיני ועד שלום הגליל — ויצא מכולן בשלום, לעיתים בנס גלוי. עבד כגגן, מסגר, מנהל תרבות ומנהל בריכות שחייה. התאהב בצפת, שם פגש את אהבת חייו כרמלה, ובנה את ביתו. אב לאריאלה, ברק וגילת. נפח את נשמתו כשסביבו שלושת ילדיו, ולצלילי השיר שאהב כל חייו — ״זר אנוכי״.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     ABOUT THE MAN
+══════════════════════════════════════════════════════════ -->
+<div id="about-section" class="section-wrap">
+  <div class="section-inner">
+    <p class="eyebrow reveal">האדם מאחורי השוער</p>
+    <h2 class="section-heading reveal" style="--d:0.1s">האדם מאחורי <em>השוער</em></h2>
+    <div class="rule reveal" style="--d:0.15s"></div>
+
+    <div class="story-grid">
+
+      <div class="story-card reveal" style="--d:0.1s">
+        <div class="story-icon">🌳</div>
+        <h4>ילדות בפרדסים</h4>
+        <p>נולד בפתח תקווה בערב תשעה באב, 1938. גדל בסביבה חקלאית שופעת טבע — רכב על אופניים, שוטט בשבילים, ונהנה מילדות עשירה בחוויות. סבו עלה מתימן בסוף המאה ה-19 והתיישב ב"אם המושבות", ובני המשפחה גידלו פרדסי תפוזים.</p>
+      </div>
+
+      <div class="story-card reveal" style="--d:0.2s">
+        <div class="story-icon">📖</div>
+        <h4>הלימוד אצל המורי</h4>
+        <p>התחנך בחדר אצל המורי הזקן — דמות מרשימה שלימדה תורה בידיים חזקות ובשוט עור. כבר בגיל 3–4 ידע קרוא וכתוב; בגיל 5 עלה לתורה. הניגוד בין הנוקשות לבין האהבה לספר עיצב אותו לכל חייו.</p>
+      </div>
+
+      <div class="story-card reveal" style="--d:0.3s">
+        <div class="story-icon">📚</div>
+        <h4>אוהב היסטוריה וספרים</h4>
+        <p>אהב היסטוריה ותנ"ך באופן יוצא דופן. הבית היה מלא ספרים ובקיאותו לא ידעה גבול. ידע לספר סיפורים מרתקים מכל תקופה, והעשיר את ילדיו ונכדיו בידע ובסיפורים לאורך כל השנים.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     CAREER TIMELINE
+══════════════════════════════════════════════════════════ -->
+<div id="career-section" class="section-wrap">
+  <div class="section-inner">
+    <p class="eyebrow reveal">על המגרש</p>
+    <h2 class="section-heading reveal" style="--d:0.1s">קריירה <em>ב</em>כדורגל</h2>
+    <div class="rule reveal" style="--d:0.15s"></div>
+
+    <div class="timeline">
+
+      <!--
+        ╔══════════════════════════════════════════════════════╗
+        ║  TIMELINE — החלף [שם הקבוצה] ואת השנים בפרטים       ║
+        ║  האמיתיים. הוסף / הסר פריטים לפי הצורך.             ║
+        ╚══════════════════════════════════════════════════════╝
+      -->
+
+      <!-- Entry 1 -->
+      <div class="timeline-item reveal" style="--d:0.1s">
+        <div class="timeline-card">
+          <div class="team">הפועל פתח תקווה</div>
+          <h3>שחקן שדה ושוער</h3>
+          <p>התחיל בקבוצת הנוער ועבר לבוגרים. שיחק תחילה בשדה ולאחר מכן עבר לעמוד בשער — שם מצא את מקומו האמיתי.</p>
+        </div>
+        <div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">ראשית הדרך</div>
+        </div>
+        <div class="timeline-empty"></div>
+      </div>
+
+      <!-- Entry 2 -->
+      <div class="timeline-item reveal" style="--d:0.2s">
+        <div class="timeline-empty"></div>
+        <div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">כוכב הקבוצה</div>
+        </div>
+        <div class="timeline-card">
+          <div class="team">מחנה יהודה</div>
+          <h3>שוער ראשי — כוכב</h3>
+          <p>קבוצת הבת של הפועל פ"ת. הפך לכוכב הקבוצה — אף הופיע על קלף פרסומת. שיחק לצד אגדות כאבשלום רצאבי ואשר סויסה ז"ל, שנעשה לו כאח.</p>
+        </div>
+      </div>
+
+      <!-- Entry 3 -->
+      <div class="timeline-item reveal" style="--d:0.3s">
+        <div class="timeline-card">
+          <div class="team">שמשון תל אביב</div>
+          <h3>שוער</h3>
+          <p>תחנה נוספת בקריירה המפוארת. בתקופה זו שיחק גם כדור מים לצד שדרן הספורט האגדי יורם ארבל.</p>
+        </div>
+        <div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">שיא הקריירה</div>
+        </div>
+        <div class="timeline-empty"></div>
+      </div>
+
+      <!-- Entry 4 -->
+      <div class="timeline-item reveal" style="--d:0.4s">
+        <div class="timeline-empty"></div>
+        <div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">צפת</div>
+        </div>
+        <div class="timeline-card">
+          <div class="team">הפועל צפת</div>
+          <h3>שוער ראשי — מציל הקבוצה</h3>
+          <p>הציל את הקבוצה מירידה לליגה נמוכה. גם כאן היה בועט הפנדלים הראשי — מעולם לא פספס פנדל אחד, ואפילו נהג להצביע לשוער לאן הוא בועט — ועדיין לא החטיא.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.2rem;margin-top:2.5rem;">
+
+      <div class="reveal" style="--d:0.1s;background:rgba(255,255,255,0.05);border:1px solid rgba(201,146,42,0.35);border-radius:14px;padding:1.4rem 1.6rem;">
+        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:0.5rem;">הישג</div>
+        <p style="font-size:0.92rem;color:rgba(255,255,255,0.8);line-height:1.7;">בועט הפנדלים הראשי בכל קבוצותיו — מעולם לא פספס פנדל אחד לאורך כל הקריירה.</p>
+      </div>
+
+      <div class="reveal" style="--d:0.15s;background:rgba(255,255,255,0.05);border:1px solid rgba(201,146,42,0.35);border-radius:14px;padding:1.4rem 1.6rem;">
+        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:0.5rem;">הישג</div>
+        <p style="font-size:0.92rem;color:rgba(255,255,255,0.8);line-height:1.7;">נהג להצביע לשוער לאן הוא בועט לפני הבעיטה — ועדיין לא החטיא לעולם.</p>
+      </div>
+
+      <div class="reveal" style="--d:0.2s;background:rgba(255,255,255,0.05);border:1px solid rgba(201,146,42,0.35);border-radius:14px;padding:1.4rem 1.6rem;">
+        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:0.5rem;">כוכב</div>
+        <p style="font-size:0.92rem;color:rgba(255,255,255,0.8);line-height:1.7;">הופיע על קלף פרסומת כשחקן מחנה יהודה — כוכב הקבוצה המוכר.</p>
+      </div>
+
+      <div class="reveal" style="--d:0.25s;background:rgba(255,255,255,0.05);border:1px solid rgba(201,146,42,0.35);border-radius:14px;padding:1.4rem 1.6rem;">
+        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:0.5rem;">חברות</div>
+        <p style="font-size:0.92rem;color:rgba(255,255,255,0.8);line-height:1.7;">שיחק לצד אגדות הכדורגל הישראלי: אבשלום רצאבי (מלך השערים) ואשר סויסה ז"ל, שנעשה לו כאח.</p>
+      </div>
+
+      <div class="reveal" style="--d:0.3s;background:rgba(255,255,255,0.05);border:1px solid rgba(201,146,42,0.35);border-radius:14px;padding:1.4rem 1.6rem;">
+        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:0.5rem;">ספורט</div>
+        <p style="font-size:0.92rem;color:rgba(255,255,255,0.8);line-height:1.7;">שיחק כדור מים לצד שדרן הספורט האגדי יורם ארבל.</p>
+      </div>
+
+      <div class="reveal" style="--d:0.35s;background:rgba(255,255,255,0.05);border:1px solid rgba(201,146,42,0.35);border-radius:14px;padding:1.4rem 1.6rem;">
+        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:0.5rem;">הצלה</div>
+        <p style="font-size:0.92rem;color:rgba(255,255,255,0.8);line-height:1.7;">הציל את הפועל צפת מירידה לליגה נמוכה בעונה מכרעת.</p>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     GAME GALLERY — masonry with golden glow on hover
+══════════════════════════════════════════════════════════ -->
+<div id="games-section" class="section-wrap">
+  <div class="section-inner">
+    <p class="eyebrow reveal">תמונות מהמגרש</p>
+    <h2 class="section-heading reveal" style="--d:0.1s">גלריית <em>משחקים</em></h2>
+    <div class="rule reveal" style="--d:0.15s"></div>
+    <p style="color:var(--faded);margin-bottom:2rem;font-size:0.9rem;" class="reveal" style="--d:0.2s">
+      לחץ על תמונה להגדלה &middot; הוסף תמונות לתיקייה <code>images/games/</code>
+    </p>
+
+    <!--
+      ╔═══════════════════════════════════════════════════════════╗
+      ║  GAME GALLERY IMAGES                                      ║
+      ║  For each photo, copy this block and replace placeholder: ║
+      ║                                                           ║
+      ║  <a href="images/games/game1.jpg"                         ║
+      ║     class="glightbox masonry-item"                        ║
+      ║     data-gallery="games"                                  ║
+      ║     data-description="תיאור קצר של התמונה">              ║
+      ║    <img src="images/games/game1.jpg"                      ║
+      ║         alt="תיאור" loading="lazy" />                     ║
+      ║    <div class="masonry-overlay">תיאור קצר</div>           ║
+      ║  </a>                                                     ║
+      ╚═══════════════════════════════════════════════════════════╝
+    -->
+
+    <div class="masonry reveal" style="--d:0.25s">
+
+      <a href="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.30%20(1).jpeg"
+         class="glightbox masonry-item" data-gallery="games" data-description="תמונה ממשחק">
+        <img src="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.30%20(1).jpeg" alt="תמונה ממשחק 1" loading="lazy" />
+        <div class="masonry-overlay">תמונה ממשחק</div>
+      </a>
+
+      <a href="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.30%20(2).jpeg"
+         class="glightbox masonry-item" data-gallery="games" data-description="תמונה ממשחק" style="aspect-ratio:3/4;">
+        <img src="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.30%20(2).jpeg" alt="תמונה ממשחק 2" loading="lazy" />
+        <div class="masonry-overlay">תמונה ממשחק</div>
+      </a>
+
+      <a href="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.30%20(3).jpeg"
+         class="glightbox masonry-item" data-gallery="games" data-description="תמונה ממשחק">
+        <img src="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.30%20(3).jpeg" alt="תמונה ממשחק 3" loading="lazy" />
+        <div class="masonry-overlay">תמונה ממשחק</div>
+      </a>
+
+      <a href="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.30.jpeg"
+         class="glightbox masonry-item" data-gallery="games" data-description="תמונה ממשחק" style="aspect-ratio:1/1;">
+        <img src="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.30.jpeg" alt="תמונה ממשחק 4" loading="lazy" />
+        <div class="masonry-overlay">תמונה ממשחק</div>
+      </a>
+
+      <a href="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.31.jpeg"
+         class="glightbox masonry-item" data-gallery="games" data-description="תמונה ממשחק">
+        <img src="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.31.jpeg" alt="תמונה ממשחק 5" loading="lazy" />
+        <div class="masonry-overlay">תמונה ממשחק</div>
+      </a>
+
+      <a href="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.34%20(1).jpeg"
+         class="glightbox masonry-item" data-gallery="games" data-description="תמונה ממשחק" style="aspect-ratio:3/4;">
+        <img src="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.34%20(1).jpeg" alt="תמונה ממשחק 6" loading="lazy" />
+        <div class="masonry-overlay">תמונה ממשחק</div>
+      </a>
+
+      <a href="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.34.jpeg"
+         class="glightbox masonry-item" data-gallery="games" data-description="תמונה ממשחק">
+        <img src="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.34.jpeg" alt="תמונה ממשחק 7" loading="lazy" />
+        <div class="masonry-overlay">תמונה ממשחק</div>
+      </a>
+
+      <a href="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.36%20(3).jpeg"
+         class="glightbox masonry-item" data-gallery="games" data-description="תמונה ממשחק" style="aspect-ratio:16/9;">
+        <img src="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.36%20(3).jpeg" alt="תמונה ממשחק 8" loading="lazy" />
+        <div class="masonry-overlay">תמונה ממשחק</div>
+      </a>
+
+      <a href="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.37%20(2).jpeg"
+         class="glightbox masonry-item" data-gallery="games" data-description="תמונה ממשחק" style="aspect-ratio:3/4;">
+        <img src="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.37%20(2).jpeg" alt="תמונה ממשחק 9" loading="lazy" />
+        <div class="masonry-overlay">תמונה ממשחק</div>
+      </a>
+
+      <a href="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.37.jpeg"
+         class="glightbox masonry-item" data-gallery="games" data-description="תמונה ממשחק">
+        <img src="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.37.jpeg" alt="תמונה ממשחק 10" loading="lazy" />
+        <div class="masonry-overlay">תמונה ממשחק</div>
+      </a>
+
+      <a href="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.38.jpeg"
+         class="glightbox masonry-item" data-gallery="games" data-description="תמונה ממשחק">
+        <img src="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.38.jpeg" alt="תמונה ממשחק 11" loading="lazy" />
+        <div class="masonry-overlay">תמונה ממשחק</div>
+      </a>
+
+      <a href="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.39%20(1).jpeg"
+         class="glightbox masonry-item" data-gallery="games" data-description="תמונה ממשחק" style="aspect-ratio:1/1;">
+        <img src="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.39%20(1).jpeg" alt="תמונה ממשחק 12" loading="lazy" />
+        <div class="masonry-overlay">תמונה ממשחק</div>
+      </a>
+
+      <a href="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.39.jpeg"
+         class="glightbox masonry-item" data-gallery="games" data-description="תמונה ממשחק">
+        <img src="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.39.jpeg" alt="תמונה ממשחק 13" loading="lazy" />
+        <div class="masonry-overlay">תמונה ממשחק</div>
+      </a>
+
+      <a href="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.57%20(1).jpeg"
+         class="glightbox masonry-item" data-gallery="games" data-description="תמונה ממשחק" style="aspect-ratio:3/4;">
+        <img src="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.57%20(1).jpeg" alt="תמונה ממשחק 14" loading="lazy" />
+        <div class="masonry-overlay">תמונה ממשחק</div>
+      </a>
+
+      <a href="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.57%20(2).jpeg"
+         class="glightbox masonry-item" data-gallery="games" data-description="תמונה ממשחק">
+        <img src="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.57%20(2).jpeg" alt="תמונה ממשחק 15" loading="lazy" />
+        <div class="masonry-overlay">תמונה ממשחק</div>
+      </a>
+
+      <a href="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.57%20(3).jpeg"
+         class="glightbox masonry-item" data-gallery="games" data-description="תמונה ממשחק" style="aspect-ratio:16/9;">
+        <img src="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.57%20(3).jpeg" alt="תמונה ממשחק 16" loading="lazy" />
+        <div class="masonry-overlay">תמונה ממשחק</div>
+      </a>
+
+      <a href="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.57%20(4).jpeg"
+         class="glightbox masonry-item" data-gallery="games" data-description="תמונה ממשחק" style="aspect-ratio:3/4;">
+        <img src="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.57%20(4).jpeg" alt="תמונה ממשחק 17" loading="lazy" />
+        <div class="masonry-overlay">תמונה ממשחק</div>
+      </a>
+
+      <a href="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.57.jpeg"
+         class="glightbox masonry-item" data-gallery="games" data-description="תמונה ממשחק">
+        <img src="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.57.jpeg" alt="תמונה ממשחק 18" loading="lazy" />
+        <div class="masonry-overlay">תמונה ממשחק</div>
+      </a>
+
+      <a href="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.58.jpeg"
+         class="glightbox masonry-item" data-gallery="games" data-description="תמונה ממשחק">
+        <img src="images/games/WhatsApp%20Image%202026-03-30%20at%2022.32.58.jpeg" alt="תמונה ממשחק 19" loading="lazy" />
+        <div class="masonry-overlay">תמונה ממשחק</div>
+      </a>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     ARTICLES — CORKBOARD
+══════════════════════════════════════════════════════════ -->
+<div id="articles-section" class="section-wrap">
+  <div class="section-inner">
+    <p class="eyebrow reveal">תקשורת ועיתונות</p>
+    <h2 class="section-heading reveal" style="--d:0.1s">כתבות <em>ועיתונות</em></h2>
+    <div class="rule reveal" style="--d:0.15s"></div>
+    <p style="color:rgba(255,255,255,0.65);margin-bottom:2.5rem;font-size:0.9rem;" class="reveal" style="--d:0.2s">
+      לחץ על כתבה להגדלה &middot; הוסף גזרי עיתון לתיקייה <code>images/articles/</code>
+    </p>
+
+    <!--
+      ╔═══════════════════════════════════════════════════════════╗
+      ║  ARTICLES IMAGES                                          ║
+      ║  For each clipping, copy this block:                      ║
+      ║                                                           ║
+      ║  <a href="images/articles/article1.jpg"                   ║
+      ║     class="glightbox clip"                                ║
+      ║     data-gallery="articles"                               ║
+      ║     data-description="שם עיתון / תאריך">                 ║
+      ║    <div class="clip-inner">                               ║
+      ║      <div class="clip-img">                               ║
+      ║        <img src="images/articles/article1.jpg"            ║
+      ║             alt="כתבה" loading="lazy" />                  ║
+      ║      </div>                                               ║
+      ║      <div class="clip-caption">ידיעות אחרונות · [תאריך]</div>║
+      ║    </div>                                                 ║
+      ║  </a>                                                     ║
+      ╚═══════════════════════════════════════════════════════════╝
+    -->
+
+    <div class="corkboard reveal" style="--d:0.2s">
+
+      <a href="images/articles/WhatsApp%20Image%202026-03-30%20at%2022.32.34%20(2).jpeg"
+         class="glightbox clip" data-gallery="articles" data-description="כתבה">
+        <div class="clip-inner">
+          <div class="clip-img">
+            <img src="images/articles/WhatsApp%20Image%202026-03-30%20at%2022.32.34%20(2).jpeg" alt="כתבה 1" loading="lazy" />
+          </div>
+          <div class="clip-caption">[ שם עיתון ] · [ תאריך ]</div>
+        </div>
+      </a>
+
+      <a href="images/articles/WhatsApp%20Image%202026-03-30%20at%2022.32.34%20(3).jpeg"
+         class="glightbox clip" data-gallery="articles" data-description="כתבה">
+        <div class="clip-inner">
+          <div class="clip-img">
+            <img src="images/articles/WhatsApp%20Image%202026-03-30%20at%2022.32.34%20(3).jpeg" alt="כתבה 2" loading="lazy" />
+          </div>
+          <div class="clip-caption">[ שם עיתון ] · [ תאריך ]</div>
+        </div>
+      </a>
+
+      <a href="images/articles/WhatsApp%20Image%202026-03-30%20at%2022.32.35%20(1).jpeg"
+         class="glightbox clip" data-gallery="articles" data-description="כתבה">
+        <div class="clip-inner">
+          <div class="clip-img">
+            <img src="images/articles/WhatsApp%20Image%202026-03-30%20at%2022.32.35%20(1).jpeg" alt="כתבה 3" loading="lazy" />
+          </div>
+          <div class="clip-caption">[ שם עיתון ] · [ תאריך ]</div>
+        </div>
+      </a>
+
+      <a href="images/articles/WhatsApp%20Image%202026-03-30%20at%2022.32.35%20(2).jpeg"
+         class="glightbox clip" data-gallery="articles" data-description="כתבה">
+        <div class="clip-inner">
+          <div class="clip-img">
+            <img src="images/articles/WhatsApp%20Image%202026-03-30%20at%2022.32.35%20(2).jpeg" alt="כתבה 4" loading="lazy" />
+          </div>
+          <div class="clip-caption">[ שם עיתון ] · [ תאריך ]</div>
+        </div>
+      </a>
+
+      <a href="images/articles/WhatsApp%20Image%202026-03-30%20at%2022.32.35.jpeg"
+         class="glightbox clip" data-gallery="articles" data-description="כתבה">
+        <div class="clip-inner">
+          <div class="clip-img">
+            <img src="images/articles/WhatsApp%20Image%202026-03-30%20at%2022.32.35.jpeg" alt="כתבה 5" loading="lazy" />
+          </div>
+          <div class="clip-caption">[ שם עיתון ] · [ תאריך ]</div>
+        </div>
+      </a>
+
+      <a href="images/articles/WhatsApp%20Image%202026-03-30%20at%2022.32.36%20(1).jpeg"
+         class="glightbox clip" data-gallery="articles" data-description="כתבה">
+        <div class="clip-inner">
+          <div class="clip-img">
+            <img src="images/articles/WhatsApp%20Image%202026-03-30%20at%2022.32.36%20(1).jpeg" alt="כתבה 6" loading="lazy" />
+          </div>
+          <div class="clip-caption">[ שם עיתון ] · [ תאריך ]</div>
+        </div>
+      </a>
+
+      <a href="images/articles/WhatsApp%20Image%202026-03-30%20at%2022.32.36%20(2).jpeg"
+         class="glightbox clip" data-gallery="articles" data-description="כתבה">
+        <div class="clip-inner">
+          <div class="clip-img">
+            <img src="images/articles/WhatsApp%20Image%202026-03-30%20at%2022.32.36%20(2).jpeg" alt="כתבה 7" loading="lazy" />
+          </div>
+          <div class="clip-caption">[ שם עיתון ] · [ תאריך ]</div>
+        </div>
+      </a>
+
+      <a href="images/articles/WhatsApp%20Image%202026-03-30%20at%2022.32.36.jpeg"
+         class="glightbox clip" data-gallery="articles" data-description="כתבה">
+        <div class="clip-inner">
+          <div class="clip-img">
+            <img src="images/articles/WhatsApp%20Image%202026-03-30%20at%2022.32.36.jpeg" alt="כתבה 8" loading="lazy" />
+          </div>
+          <div class="clip-caption">[ שם עיתון ] · [ תאריך ]</div>
+        </div>
+      </a>
+
+      <a href="images/articles/WhatsApp%20Image%202026-03-30%20at%2022.32.37%20(1).jpeg"
+         class="glightbox clip" data-gallery="articles" data-description="כתבה">
+        <div class="clip-inner">
+          <div class="clip-img">
+            <img src="images/articles/WhatsApp%20Image%202026-03-30%20at%2022.32.37%20(1).jpeg" alt="כתבה 9" loading="lazy" />
+          </div>
+          <div class="clip-caption">[ שם עיתון ] · [ תאריך ]</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     TRIBUTES — typewriter reveal
+══════════════════════════════════════════════════════════ -->
+<div id="tributes-section" class="section-wrap">
+  <div class="section-inner">
+    <p class="eyebrow reveal">מה אמרו עליו</p>
+    <h2 class="section-heading reveal" style="--d:0.1s">מילים <em>מהלב</em></h2>
+    <div class="rule reveal" style="--d:0.15s"></div>
+
+    <div class="tributes-grid">
+
+      <div class="tribute-card reveal" style="--d:0.1s">
+        <div class="tribute-text-wrap">
+          <p class="tribute-text">
+            היית לי השקט.
+          </p>
+        </div>
+        <div class="tribute-author">
+          <div class="tribute-avatar">❤️</div>
+          <div>
+            <div class="tribute-name">כרמלה לוי</div>
+            <div class="tribute-role">אשתו</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tribute-card reveal" style="--d:0.2s">
+        <div class="tribute-text-wrap">
+          <p class="tribute-text">
+            ״מעולם לא פספס פנדל — ואפילו הצביע לשוער לאן הוא בועט, ועדיין לא החטיא.״
+          </p>
+        </div>
+        <div class="tribute-author">
+          <div class="tribute-avatar">⚽</div>
+          <div>
+            <div class="tribute-name">ברק לוי</div>
+            <div class="tribute-role">בנו</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tribute-card reveal" style="--d:0.3s">
+        <div class="tribute-text-wrap">
+          <p class="tribute-text">
+            ״[ציטוט מאריאלה — יש להוסיף]״
+          </p>
+        </div>
+        <div class="tribute-author">
+          <div class="tribute-avatar">❤️</div>
+          <div>
+            <div class="tribute-name">אריאלה לוי</div>
+            <div class="tribute-role">בתו</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tribute-card reveal" style="--d:0.4s">
+        <div class="tribute-text-wrap">
+          <p class="tribute-text">
+            ״[ציטוט מגילת — יש להוסיף]״
+          </p>
+        </div>
+        <div class="tribute-author">
+          <div class="tribute-avatar">🌟</div>
+          <div>
+            <div class="tribute-name">גילת לוי</div>
+            <div class="tribute-role">בתו</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     LAST MOMENT
+══════════════════════════════════════════════════════════ -->
+<div style="background:var(--grass);color:var(--cream);text-align:center;padding:4rem 1.5rem 3rem;">
+  <div style="max-width:620px;margin:0 auto;">
+    <p style="font-size:0.8rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold2);margin-bottom:1.2rem;">רגע האחרון</p>
+    <p style="font-family:'Playfair Display',serif;font-size:1.15rem;line-height:1.9;color:rgba(255,255,255,0.9);">
+      משה נפטר כשסביבו שלושת ילדיו — אריאלה, גילת וברק.<br/>
+      ברקע ניגן השיר שאהב כל חייו:
+    </p>
+    <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.35rem;color:var(--gold2);margin:1.5rem 0;">
+      ״זר אנוכי, בודד על ארץ... אני רוצה לראות את אמא...״
+    </p>
+    <div style="width:60px;height:2px;background:var(--gold);margin:1.5rem auto;opacity:0.5;"></div>
+    <p style="font-size:0.95rem;color:rgba(255,255,255,0.6);">יהי זכרו ברוך</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     FOOTER — with animated grass SVG
+══════════════════════════════════════════════════════════ -->
+<footer id="footer">
+
+  <!-- Animated grass blades SVG -->
+  <svg id="grass-svg" viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Row of animated grass blades, evenly spaced -->
+    <path class="grass-blade" d="M20,120 C20,80 30,40 15,0 C15,40 10,80 20,120" fill="#4a7a30"/>
+    <path class="grass-blade" d="M50,120 C50,70 65,30 55,0 C52,35 45,75 50,120" fill="#3d6b26"/>
+    <path class="grass-blade" d="M80,120 C80,85 90,45 78,5 C76,45 72,85 80,120" fill="#5a8f38"/>
+    <path class="grass-blade" d="M110,120 C110,75 122,35 108,2 C106,38 100,78 110,120" fill="#3d6b26"/>
+    <path class="grass-blade" d="M140,120 C140,80 152,40 138,3 C136,42 130,82 140,120" fill="#4a7a30"/>
+    <path class="grass-blade" d="M170,120 C170,70 183,28 168,0 C166,32 160,72 170,120" fill="#5a8f38"/>
+    <path class="grass-blade" d="M200,120 C200,82 212,42 198,5 C196,44 190,84 200,120" fill="#3d6b26"/>
+    <path class="grass-blade" d="M230,120 C230,76 243,36 228,2 C226,38 220,78 230,120" fill="#4a7a30"/>
+    <path class="grass-blade" d="M260,120 C260,84 272,44 258,6 C256,46 250,86 260,120" fill="#5a8f38"/>
+    <path class="grass-blade" d="M290,120 C290,72 303,30 288,0 C286,34 280,74 290,120" fill="#3d6b26"/>
+    <path class="grass-blade" d="M320,120 C320,80 333,40 318,3 C316,42 310,82 320,120" fill="#4a7a30"/>
+    <path class="grass-blade" d="M350,120 C350,74 363,32 348,1 C346,35 340,75 350,120" fill="#5a8f38"/>
+    <path class="grass-blade" d="M380,120 C380,82 392,42 378,5 C376,44 370,84 380,120" fill="#3d6b26"/>
+    <path class="grass-blade" d="M410,120 C410,70 423,28 408,0 C406,32 400,72 410,120" fill="#4a7a30"/>
+    <path class="grass-blade" d="M440,120 C440,78 452,38 438,2 C436,40 430,80 440,120" fill="#5a8f38"/>
+    <path class="grass-blade" d="M470,120 C470,80 482,40 468,4 C466,42 460,82 470,120" fill="#3d6b26"/>
+    <path class="grass-blade" d="M500,120 C500,72 513,30 498,0 C496,34 490,74 500,120" fill="#4a7a30"/>
+    <path class="grass-blade" d="M530,120 C530,82 543,42 528,5 C526,44 520,84 530,120" fill="#5a8f38"/>
+    <path class="grass-blade" d="M560,120 C560,76 573,36 558,2 C556,38 550,78 560,120" fill="#3d6b26"/>
+    <path class="grass-blade" d="M590,120 C590,80 603,40 588,3 C586,42 580,82 590,120" fill="#4a7a30"/>
+    <path class="grass-blade" d="M620,120 C620,70 633,28 618,0 C616,32 610,72 620,120" fill="#5a8f38"/>
+    <path class="grass-blade" d="M650,120 C650,84 663,44 648,6 C646,46 640,86 650,120" fill="#3d6b26"/>
+    <path class="grass-blade" d="M680,120 C680,76 693,36 678,2 C676,38 670,78 680,120" fill="#4a7a30"/>
+    <path class="grass-blade" d="M710,120 C710,80 723,40 708,3 C706,42 700,82 710,120" fill="#5a8f38"/>
+    <path class="grass-blade" d="M740,120 C740,72 753,30 738,0 C736,34 730,74 740,120" fill="#3d6b26"/>
+    <path class="grass-blade" d="M770,120 C770,82 783,42 768,5 C766,44 760,84 770,120" fill="#4a7a30"/>
+    <path class="grass-blade" d="M800,120 C800,78 813,38 798,2 C796,40 790,80 800,120" fill="#5a8f38"/>
+    <path class="grass-blade" d="M830,120 C830,74 843,32 828,1 C826,35 820,75 830,120" fill="#3d6b26"/>
+    <path class="grass-blade" d="M860,120 C860,82 872,42 858,5 C856,44 850,84 860,120" fill="#4a7a30"/>
+    <path class="grass-blade" d="M890,120 C890,70 903,28 888,0 C886,32 880,72 890,120" fill="#5a8f38"/>
+    <path class="grass-blade" d="M920,120 C920,80 933,40 918,3 C916,42 910,82 920,120" fill="#3d6b26"/>
+    <path class="grass-blade" d="M950,120 C950,76 963,36 948,2 C946,38 940,78 950,120" fill="#4a7a30"/>
+    <path class="grass-blade" d="M980,120 C980,82 993,42 978,5 C976,44 970,84 980,120" fill="#5a8f38"/>
+    <path class="grass-blade" d="M1010,120 C1010,72 1023,30 1008,0 C1006,34 1000,74 1010,120" fill="#3d6b26"/>
+    <path class="grass-blade" d="M1040,120 C1040,80 1053,40 1038,3 C1036,42 1030,82 1040,120" fill="#4a7a30"/>
+    <path class="grass-blade" d="M1070,120 C1070,74 1083,32 1068,1 C1066,35 1060,75 1070,120" fill="#5a8f38"/>
+    <path class="grass-blade" d="M1100,120 C1100,82 1112,42 1098,5 C1096,44 1090,84 1100,120" fill="#3d6b26"/>
+    <path class="grass-blade" d="M1130,120 C1130,70 1143,28 1128,0 C1126,32 1120,72 1130,120" fill="#4a7a30"/>
+    <path class="grass-blade" d="M1160,120 C1160,80 1173,40 1158,3 C1156,42 1150,82 1160,120" fill="#5a8f38"/>
+    <path class="grass-blade" d="M1190,120 C1190,76 1203,36 1188,2 C1186,38 1180,78 1190,120" fill="#3d6b26"/>
+    <path class="grass-blade" d="M1220,120 C1220,82 1232,42 1218,5 C1216,44 1210,84 1220,120" fill="#4a7a30"/>
+    <path class="grass-blade" d="M1250,120 C1250,72 1263,30 1248,0 C1246,34 1240,74 1250,120" fill="#5a8f38"/>
+    <path class="grass-blade" d="M1280,120 C1280,80 1293,40 1278,3 C1276,42 1270,82 1280,120" fill="#3d6b26"/>
+    <path class="grass-blade" d="M1310,120 C1310,74 1323,32 1308,1 C1306,35 1300,75 1310,120" fill="#4a7a30"/>
+    <path class="grass-blade" d="M1340,120 C1340,82 1352,42 1338,5 C1336,44 1330,84 1340,120" fill="#5a8f38"/>
+    <path class="grass-blade" d="M1370,120 C1370,70 1383,28 1368,0 C1366,32 1360,72 1370,120" fill="#3d6b26"/>
+    <path class="grass-blade" d="M1400,120 C1400,80 1413,40 1398,3 C1396,42 1390,82 1400,120" fill="#4a7a30"/>
+    <path class="grass-blade" d="M1430,120 C1430,76 1443,36 1428,2 C1426,38 1420,78 1430,120" fill="#5a8f38"/>
+  </svg>
+
+  <div class="footer-content">
+    <div class="footer-name">משה לוי</div>
+    <div class="footer-years">[שנת לידה] &ndash; [שנת פטירה]</div>
+    <div class="footer-rule"></div>
+    <p class="footer-tagline">
+      שוער, אבא, חבר —<br/>
+      שמור בלבבות של כולנו לנצח.<br/>
+      תנוח בשלום.
+    </p>
+    <div class="footer-dove">🕊️</div>
+    <p class="footer-copy">אתר הנצחה משפחתי &middot; כל הזכויות שמורות</p>
+  </div>
+</footer>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* ── GLightbox ─────────────────────────────────────────── */
+  GLightbox({ selector: '.glightbox[data-gallery="games"]',    loop: true, zoomable: true });
+  GLightbox({ selector: '.glightbox[data-gallery="articles"]', loop: true, zoomable: true });
+
+  /* ── Nav: transparent → frosted glass on scroll ─────────── */
+  const nav = document.getElementById('nav');
+  function handleNavScroll () {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }
+  window.addEventListener('scroll', handleNavScroll, { passive: true });
+  handleNavScroll();
+
+  /* ── Hero parallax ──────────────────────────────────────── */
+  const heroBg = document.getElementById('hero-bg');
+  function parallax () {
+    if (!heroBg) return;
+    const y = window.scrollY * 0.35;
+    heroBg.style.transform = `translateY(${y}px)`;
+  }
+  window.addEventListener('scroll', parallax, { passive: true });
+
+  /* ── Smooth scroll with nav offset ─────────────────────── */
+  document.querySelectorAll('nav a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) {
+        window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 64, behavior: 'smooth' });
+      }
+    });
+  });
+
+  /* ── IntersectionObserver: .reveal cards slide up + fade ── */
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  /* ── Tribute typewriter reveal ──────────────────────────── */
+  const typeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const text = entry.target.querySelector('.tribute-text');
+        if (text) {
+          // stagger based on card index
+          const cards = [...document.querySelectorAll('.tribute-card')];
+          const idx   = cards.indexOf(entry.target);
+          setTimeout(() => text.classList.add('typed'), idx * 150);
+        }
+        typeObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.tribute-card').forEach(el => typeObserver.observe(el));
+
+  /* ── Active nav link highlighting on scroll ─────────────── */
+  const sections  = document.querySelectorAll('[id]');
+  const navLinks  = document.querySelectorAll('#nav a');
+
+  const activeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          const isActive = link.getAttribute('href') === '#' + id;
+          link.style.background = isActive ? 'rgba(201,146,42,0.3)' : '';
+          link.style.color      = '';
+        });
+      }
+    });
+  }, { threshold: 0.35 });
+
+  sections.forEach(s => activeObserver.observe(s));
+
+})();
+</script>
+
+</body>
+</html>

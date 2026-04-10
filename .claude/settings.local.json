@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sips -r 90 \"/Users/sagireuven/Desktop/Moshe Levi/images/profile.jpg\")"
+    ]
+  }
+}
